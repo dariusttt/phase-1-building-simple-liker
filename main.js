@@ -3,8 +3,34 @@ const EMPTY_HEART = '♡'
 const FULL_HEART = '♥'
 
 // Your JavaScript code goes here!
+const colorStates = {
+  "red" : "black",
+  "black" : "red"
+};
 
 
+
+const articleHearts = document.querySelectorAll(".like-glyph");
+
+function likeCallback(e) {
+  const heart = e.target;
+  mimicServerCall("bogusUrl", {forceFailure: true})
+    .then(function(){
+       heart.innerText = heart.innerText === EMPTY_HEART ? FULL_HEART : EMPTY_HEART;
+       heart.style.color = heart.style.color === "black" ? "red" : "black";
+    })
+    .catch(function(error) {
+      const modal = document.getElementById("modal");
+      modal.className = "";
+      modal.innerText = error;
+      setTimeout(() =>  modal.className = "hidden", 3000);
+    });
+}     
+ 
+
+ for (const glyph of articleHearts) {
+  glyph.addEventListener("click", likeCallback);
+}
 
 
 //------------------------------------------------------------------------------
